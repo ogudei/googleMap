@@ -5,13 +5,17 @@ async function geocodeReverser(event, context) {
   const { lat, lng } = event.body;
   let response = {};
   let result = {};
-
-  result = await reverseGeocode(lat, lng);
-  console.log("wait");
-  response = {
-    statusCode: 200,
-    body: JSON.stringify(result),
-  };
+  try {
+    result = await reverseGeocode(lat, lng);
+    console.log("wait");
+    response = {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error("an error occured");
+  }
 
   return response;
 }
@@ -20,11 +24,16 @@ async function geocodeFunc(event, context) {
   const { address } = event.body;
   let response = {};
 
-  let result = await geocode(address);
-  response = {
-    statusCode: 200,
-    body: JSON.stringify(result),
-  };
+  try {
+    let result = await geocode(address);
+    response = {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error("an error occured");
+  }
 
   return response;
 }

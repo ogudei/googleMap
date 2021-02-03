@@ -38,7 +38,7 @@ async function geocode(address) {
     })
     .catch((e) => {
       console.error(e)
-      throw new Error(e.response.data.error_message);
+      throw new Error(e);
     });
   return result;
 }
