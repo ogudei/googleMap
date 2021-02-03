@@ -1,0 +1,34 @@
+service:
+  name: map-service
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+  - serverless-offline
+  - serverless-jest-plugin
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: 'eu-west-1'
+  
+functions:
+  geocodeReverser:
+    handler: src/handlers/map.reverseGeocodeHandler
+    events:
+      - http:
+          method: POST
+          path: /geocodereverser
+  geocode:
+    handler: src/handlers/map.geocodeHandler
+    events:
+      - http:
+          method: POST
+          path: /geocode          
+      
+custom:
+  bundle:
+    linting: false
